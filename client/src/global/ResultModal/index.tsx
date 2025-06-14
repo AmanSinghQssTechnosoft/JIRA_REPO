@@ -4,11 +4,11 @@ import "./resultmodal.scss";
 import { addResult } from "../../redux/slice/ResultSlice";
 
 
-interface Props {
+interface newprops{
   onClose: () => void;
 }
 
-const AddResultModal = ({ onClose }: Props) => {
+const AddResultModal = ({ onClose }: newprops) => {
   const dispatch = useDispatch();
   const results = useSelector((state: any) => state.result.results); 
 

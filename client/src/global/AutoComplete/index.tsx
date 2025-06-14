@@ -1,4 +1,3 @@
-// CollegeLocationPicker.tsx
 import { useState } from "react";
 import {
   LoadScript,
@@ -8,22 +7,22 @@ import {
 const libraries: ("places")[] = ["places"];
 
 const CollegeLocationPicker = () => {
-  const [collegeName, setCollegeName] = useState("");
-  const [latitude, setLatitude] = useState<string | null>(null);
-  const [longitude, setLongitude] = useState<string | null>(null);
-  const [autocomplete, setAutocomplete] = useState<google.maps.places.Autocomplete | null>(null);
+  const [locationName, setLocationName] = useState("");
+  const [lat, setLat] = useState<string | null>(null);
+  const [lng, setLng] = useState<string | null>(null);
+  const [autoInstance, setAutoInstance] = useState<google.maps.places.Autocomplete | null>(null);
 
-  const onLoad = (autocompleteInstance: google.maps.places.Autocomplete) => {
-    setAutocomplete(autocompleteInstance);
+  const handleAutoLoad = (instance: google.maps.places.Autocomplete) => {
+    setAutoInstance(instance);
   };
 
-  const onPlaceChanged = () => {
-    if (autocomplete !== null) {
-      const place = autocomplete.getPlace();
-      if (place.name) setCollegeName(place.name);
-      if (place.geometry?.location) {
-        setLatitude(place.geometry.location.lat().toFixed(6));
-        setLongitude(place.geometry.location.lng().toFixed(6));
+  const handlePlaceSelection = () => {
+    if (autoInstance) {
+      const selectedPlace = autoInstance.getPlace();
+      if (selectedPlace.name) setLocationName(selectedPlace.name);
+      if (selectedPlace.geometry?.location) {
+        setLat(selectedPlace.geometry.location.lat().toFixed(6));
+        setLng(selectedPlace.geometry.location.lng().toFixed(6));
       }
     }
   };
@@ -31,13 +30,13 @@ const CollegeLocationPicker = () => {
   return (
     <LoadScript googleMapsApiKey="AIzaSyBBVOhy3oMIrUFQpRLgv72Kp111dX_HxJs" libraries={libraries}>
       <div style={{ maxWidth: "400px", margin: "2rem auto", fontFamily: "Arial" }}>
-        <h2>Search College</h2>
-        <Autocomplete onLoad={onLoad} onPlaceChanged={onPlaceChanged}>
+        <h2>College Finder</h2>
+        <Autocomplete onLoad={handleAutoLoad} onPlaceChanged={handlePlaceSelection}>
           <input
             type="text"
-            placeholder="Enter college name"
-            value={collegeName}
-            onChange={(e) => setCollegeName(e.target.value)}
+            placeholder="Type your college name"
+            value={locationName}
+            onChange={(e) => setLocationName(e.target.value)}
             style={{
               width: "100%",
               padding: "0.5rem",
@@ -48,11 +47,11 @@ const CollegeLocationPicker = () => {
           />
         </Autocomplete>
 
-        {latitude && longitude && (
+        {lat && lng && (
           <div style={{ marginTop: "1rem" }}>
-            <p><strong>College Name:</strong> {collegeName}</p>
-            <p><strong>Latitude:</strong> {latitude}</p>
-            <p><strong>Longitude:</strong> {longitude}</p>
+            <p><strong>College:</strong> {locationName}</p>
+            <p><strong>Latitude:</strong> {lat}</p>
+            <p><strong>Longitude:</strong> {lng}</p>
           </div>
         )}
       </div>
