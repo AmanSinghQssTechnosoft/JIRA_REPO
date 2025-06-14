@@ -7,7 +7,7 @@ import {
 const libraries: ("places")[] = ["places"];
 
 const CollegeLocationPicker = () => {
-  const [locationName, setLocationName] = useState("");
+  const [locationNam, setLocationName] = useState("");
   const [lat, setLat] = useState<string | null>(null);
   const [lng, setLng] = useState<string | null>(null);
   const [autoInstance, setAutoInstance] = useState<google.maps.places.Autocomplete | null>(null);
@@ -35,7 +35,7 @@ const CollegeLocationPicker = () => {
           <input
             type="text"
             placeholder="Type your college name"
-            value={locationName}
+            value={locationNam}
             onChange={(e) => setLocationName(e.target.value)}
             style={{
               width: "100%",
@@ -49,7 +49,7 @@ const CollegeLocationPicker = () => {
 
         {lat && lng && (
           <div style={{ marginTop: "1rem" }}>
-            <p><strong>College:</strong> {locationName}</p>
+            <p><strong>College:</strong> {locationNam}</p>
             <p><strong>Latitude:</strong> {lat}</p>
             <p><strong>Longitude:</strong> {lng}</p>
           </div>
