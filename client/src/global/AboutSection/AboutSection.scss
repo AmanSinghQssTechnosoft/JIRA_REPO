@@ -1,0 +1,50 @@
+.main-three-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 20px 10px;
+  background-color: rgba(207, 180, 93, 0.418);
+  gap: 2rem;
+  width: 100%;
+  margin-top: 2rem;
+
+  > div {
+    padding: 0 10px;
+    display: flex;
+    align-items: center;
+    width: 100%; 
+
+    .liveclock {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    &:not(:first-child) {
+      border-left: 2px solid #6b6767;
+      padding-left: 100px;
+      margin-left: 10px;
+      height: 100%;
+    }
+  }
+
+  @media (max-width: 786px) {
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    text-align: left;
+
+    > div {
+      width: 100%;          
+      padding: 10px 0;       
+      margin: 0;            
+
+      &:not(:first-child) {
+        border-left: none;
+        padding-left: 0;
+        margin-left: 0;
+        height: auto;
+      }
+    }
+  }
+}

@@ -1,0 +1,97 @@
+.payment-card {
+  height: 400px;
+  width: 350px;
+  background-color: #fff8e6;
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+
+  .payment-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+
+    .pay {
+      font-weight: bold;
+      font-size: 1.2rem;
+    }
+
+    .pay-option {
+      display: flex;
+      gap: 1.5rem;
+
+      p {
+        margin: 0;
+        cursor: pointer;
+        font-weight: 500;
+        color: #5a5a5a;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+
+  .table-header {
+    display: grid;
+    grid-template-columns: 1fr 2fr 2fr 2fr;
+    padding: 10px;
+    font-weight: bold;
+    background-color: #f3e5c2;
+    border-bottom: 1px solid #c9b37d;
+  }
+
+  .table-body {
+    flex: 1;
+    overflow-y: auto;
+
+    .table-row {
+      display: grid;
+      grid-template-columns: 1fr 2fr 2fr 1fr;
+      padding: 10px;
+      align-items: center;
+      border-bottom: 1px solid #ddd;
+
+      &:last-child {
+        border-bottom: none;
+      }
+
+      p {
+        margin: 0;
+      }
+    }
+  }
+  .add-payment {
+  display: flex;
+  justify-content: center;
+  margin-top: 1.5rem;
+
+  .payment-btn {
+    background-color: #cfa45d;    
+    color: #fff;
+    border: none;
+    padding: 0.6rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 6px;
+    cursor: pointer;
+    box-shadow: 0 3px 6px rgba(207, 164, 93, 0.5);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+
+    &:hover {
+      background-color: #b89549;
+      box-shadow: 0 5px 10px rgba(184, 149, 73, 0.7);
+    }
+
+    &:focus {
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(207, 164, 93, 0.8);
+    }
+  }
+}
+
+}

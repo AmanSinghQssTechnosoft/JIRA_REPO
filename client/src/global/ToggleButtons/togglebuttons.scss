@@ -1,0 +1,23 @@
+.toggle-buttons {
+  display: flex;
+  gap: 1rem;
+  background-color: #2d3436;
+  padding: 0.5rem;
+  border-radius: 999px;
+
+  button {
+    padding: 0.5rem 1.2rem;
+    border: none;
+    background: transparent;
+    color: white;
+    border-radius: 999px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: 0.3s ease;
+
+    &.active {
+      background-color: white;
+      color: #2d3436;
+    }
+  }
+}
