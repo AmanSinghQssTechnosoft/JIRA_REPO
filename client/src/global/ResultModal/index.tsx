@@ -12,22 +12,22 @@ const AddResultModal = ({ onClose }: Props) => {
   const dispatch = useDispatch();
   const results = useSelector((state: any) => state.result.results); 
 
-  const [form, setForm] = useState({
+  const [formModal, setFormModal] = useState({
     subject: "",
     subjectId: "",
     result: "",
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    setFormModal({ ...formModal, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = () => {
+  const handleSubmitModal = () => {
     const newResult = {
       srNo: results.length + 1,
-      subject: form.subject,
-      subjectId: form.subjectId,
-      result: form.result,
+      subject: formModal.subject,
+      subjectId: formModal.subjectId,
+      result: formModal.result,
     };
     dispatch(addResult(newResult));
     onClose();
@@ -41,25 +41,25 @@ const AddResultModal = ({ onClose }: Props) => {
           type="text"
           name="subject"
           placeholder="Subject"
-          value={form.subject}
+          value={formModal.subject}
           onChange={handleChange}
         />
         <input
           type="text"
           name="subjectId"
           placeholder="Subject ID"
-          value={form.subjectId}
+          value={formModal.subjectId}
           onChange={handleChange}
         />
         <input
           type="text"
           name="result"
           placeholder="Result (Pass/Fail)"
-          value={form.result}
+          value={formModal.result}
           onChange={handleChange}
         />
         <div className="modal-actions">
-          <button onClick={handleSubmit}>Add</button>
+          <button onClick={handleSubmitModal}>Add</button>
           <button onClick={onClose}>Cancel</button>
         </div>
       </div>
