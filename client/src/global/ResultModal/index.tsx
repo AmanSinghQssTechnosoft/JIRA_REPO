@@ -34,7 +34,7 @@ const AddResultModal = ({ onClose }: Props) => {
   };
 
   return (
-    <div className="modal-backdrop">
+    <div className="modal-backdroped">
       <div className="modal">
         <h2>Add Result</h2>
         <input
