@@ -22,7 +22,7 @@ export const userRequest = async (
 
     if (!response.ok) {
       const errorData = await response.json();
-      throw new Error(errorData.message || 'Request failed');
+      throw new Error(errorData.message || 'Request is not accepted');
     }
 
     return await response.json();
