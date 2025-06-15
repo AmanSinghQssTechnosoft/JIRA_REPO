@@ -49,7 +49,7 @@ const CollegeLocationPicker = () => {
 
         {lat && lng && (
           <div style={{ marginTop: "1rem" }}>
-            <p><strong>Colleg:</strong> {locationNam}</p>
+            <p><strong>Colle:</strong> {locationNam}</p>
             <p><strong>Latitud:</strong> {lat}</p>
             <p><strong>Longitud:</strong> {lng}</p>
           </div>
