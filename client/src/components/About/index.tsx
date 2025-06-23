@@ -1,5 +1,6 @@
 import AboutSection from "../../global/AboutSection";
 import BarData from "../../global/Chart";
+import MultiPort from "../../global/MutliPart";
 import PaymentCard from "../../global/PaymentCard";
 import ResultCard from "../../global/ResultCard";
 import "./about.scss";
@@ -17,7 +18,8 @@ const About = () => {
 
       <div className="main-payment">
         <PaymentCard />
-        <ResultCard/>
+        <ResultCard />
+        <MultiPort />
       </div>
     </div>
   );
