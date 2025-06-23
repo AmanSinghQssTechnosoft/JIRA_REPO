@@ -52,6 +52,7 @@ const TaskManager = () => {
   const [taskID, settaskID] = useState<string | undefined>();
   const { token, id } = useSelector((state: any) => state.authLogin);
   const dispatch = useDispatch();
+  const filename=localStorage.getItem("file");
   const navigate=useNavigate();
   const fetchTasks = async () => {
     const data = await getAllTask(id);
@@ -283,10 +284,10 @@ const TaskManager = () => {
       )}
     </Droppable>
   );
-
+console.log("filename",filename)
 return (
   <div>
-    <h2 style={{ textAlign: "center" }}>Task Manager</h2>
+    <h2 style={{ textAlign: "center" }}>{filename ? filename : "Task Manager"}</h2>
     <DragDropContext onDragEnd={onDragEnd}>
       <div className="main-task-container">
         <div className="left-create-task">
