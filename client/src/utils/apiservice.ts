@@ -51,8 +51,8 @@ export const deleteTask = async (task_id: string, token: string) => {
   return response;
 }
 
-export const getAllassignedTask = async (assignee_id: string) => {
-  const response = await userRequest("/task/getAllAssignedTask", 'POST', { assignee_id: assignee_id })
+export const getAllassignedTask = async (id: string) => {
+  const response = await userRequest("/task/getAllAssignedTask", 'POST', { assignee_id:id })
   return response;
 }
 
@@ -81,3 +81,12 @@ export const resetPassword = async (password: string, token: string) => {
   return response;
 }
 
+export const getAllTaskbyasignee=async(id:number,page:number,limit:number)=>{
+  const response = await userRequest("/task/getPaginatedTasks", 'POST', { assignee_id:id,page:page,limit:limit })
+  return response;
+}
+
+export const getpdfDownload=async(assignee_id:number)=>{
+  const response = await userRequest("/pdf/generate", 'POST',{assignee_id:assignee_id});
+  return response;
+}

@@ -1,0 +1,65 @@
+.assigned_pdf {
+  padding: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+  border-radius: 8px;
+
+  .pdf_header {
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  text-align: center;
+  color: #333;
+  width: 100%;
+  position: relative;
+
+  .download-icon {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgb(105, 102, 102);
+    padding: 4px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+}
+
+  .pdf_content {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    max-height: 500px;
+    overflow-y: auto;
+    padding-right: 10px;
+
+    .assigned_data {
+      padding: 16px;
+      background-color: #ffffff;
+      border-radius: 6px;
+      border: 1px solid #ddd;
+      transition: box-shadow 0.2s ease;
+
+      &:hover {
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+      }
+
+      p {
+        margin: 4px 0;
+        font-size: 14px;
+        color: #444;
+
+        &:first-child {
+          font-weight: 500;
+          color: #222;
+        }
+      }
+    }
+  }
+
+  .pdf_pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 24px;
+  }
+}
