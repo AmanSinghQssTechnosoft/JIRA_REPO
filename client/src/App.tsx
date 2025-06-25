@@ -10,6 +10,7 @@ import Register from "./components/Register";
 import TaskDetail from "./global/TaskDetail";
 import VerifyEmail from "./global/Forget";
 import ResetPassword from "./global/Forget/ResetPassword";
+import AssigendPdfDetail from "./components/Assigned_Task";
 
 const Layout = () => (
   <>
@@ -20,6 +21,7 @@ const Layout = () => (
       <Route path="/about" element={<About />} />
       <Route path="/jira" element={<TaskManager />} />
       <Route path="/jira/:taskid" element={<TaskDetail/>}/>
+      <Route path="/assignedTask" element={<AssigendPdfDetail/>}/>
     </Routes>
     </ProtectedRoutes>
   </>

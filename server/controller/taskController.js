@@ -127,7 +127,7 @@ const getAllAssignedTaskController = async (req, res) => {
 
 const getTaskbyId = async (req, res) => {
   try {
-   const { taskId } = req.params; 
+    const { taskId } = req.params;
     const result = await pool.query(
       "SELECT * FROM task_manager WHERE task_id= $1",
       [taskId]
@@ -139,5 +139,37 @@ const getTaskbyId = async (req, res) => {
     return res.status(404).json({ message: "Server error while fetching" })
   }
 }
-module.exports = { taskCreateController, taskUpdateController, getAllTaskController, deleteTaskController, getAllAssignedTaskController, getTaskbyId }
+
+const getAllPaginatedTasks = async (req, res) => {
+  try {
+    const { assignee_id, page = 1, limit = 10 } = req.body;
+    console.log("assignee_id", assignee_id, "page", page, "limit", limit)
+    const offset = (page - 1) * limit;
+    const query = `
+    SELECT * FROM task_manager
+    WHERE assignee_id = $1
+    ORDER BY task_id DESC
+    LIMIT $2 OFFSET $3
+  `;
+    const result = await pool.query(query, [assignee_id, limit, offset]);
+    const totalTasksQuery = `
+    SELECT COUNT(*) FROM task_manager
+    WHERE assignee_id = $1
+  `;
+    const TasksQuery = await pool.query(totalTasksQuery, [assignee_id])
+    const totalTasks = parseInt(TasksQuery.rows[0].count);
+    const totalPages = Math.ceil(totalTasks / limit);
+    return res.status(200).json({
+      tasks: result.rows,
+      totalTasks,
+      totalPages,
+      currentPage: page
+    })
+  }
+  catch (err) {
+    console.error("Error in getAllPaginatedTasks:", err);
+    return res.status(500).json({ message: "Server error while fetching paginated tasks" });
+  }
+}
+module.exports = { taskCreateController, taskUpdateController, getAllTaskController, deleteTaskController, getAllAssignedTaskController, getTaskbyId, getAllPaginatedTasks }
 
