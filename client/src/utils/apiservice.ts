@@ -81,8 +81,8 @@ export const resetPassword = async (password: string, token: string) => {
   return response;
 }
 
-export const getAllTaskbyasignee=async(id:number,page:number,limit:number)=>{
-  const response = await userRequest("/task/getPaginatedTasks", 'POST', { assignee_id:id,page:page,limit:limit })
+export const getAllTaskbyasignee=async(id:number,page:number,limit:number,searchItem?:string)=>{
+  const response = await userRequest("/task/getPaginatedTasks", 'POST', { assignee_id:id,page:page,searchItem:searchItem,limit:limit })
   return response;
 }
 

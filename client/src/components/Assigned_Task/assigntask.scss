@@ -3,8 +3,7 @@
   max-width: 800px;
   margin: 0 auto;
   border-radius: 8px;
-
-  .pdf_header {
+.pdf_header {
   font-size: 24px;
   font-weight: 600;
   margin-bottom: 20px;
@@ -24,8 +23,43 @@
     cursor: pointer;
   }
 }
+.pdf_search_pdf {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
 
-  .pdf_content {
+  .search-box {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    padding: 6px 10px;
+    background-color: #fff;
+
+    .search_input {
+      border: none;
+      outline: none;
+      font-size: 14px;
+      color: #333;
+      width: 250px;
+      background-color: transparent;
+    }
+
+    .search_icon {
+      font-size: 18px;
+      color: #555;
+      margin-left: 8px;
+      cursor: pointer;
+      transition: color 0.2s ease;
+
+      &:hover {
+        color: #3f51b5;
+      }
+    }
+  }
+}
+.pdf_content {
     display: flex;
     flex-direction: column;
     gap: 16px;
@@ -55,9 +89,8 @@
         }
       }
     }
-  }
-
-  .pdf_pagination {
+}
+.pdf_pagination {
     display: flex;
     justify-content: center;
     margin-top: 24px;
