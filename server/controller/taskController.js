@@ -140,36 +140,49 @@ const getTaskbyId = async (req, res) => {
   }
 }
 
-const getAllPaginatedTasks = async (req, res) => {
+const getPaginatedAndSearchedTasks = async (req, res) => {
   try {
-    const { assignee_id, page = 1, limit = 10 } = req.body;
-    console.log("assignee_id", assignee_id, "page", page, "limit", limit)
+    const { assignee_id, page = 1, limit = 10, searchItem = "" } = req.body;
     const offset = (page - 1) * limit;
-    const query = `
-    SELECT * FROM task_manager
-    WHERE assignee_id = $1
-    ORDER BY task_id DESC
-    LIMIT $2 OFFSET $3
-  `;
-    const result = await pool.query(query, [assignee_id, limit, offset]);
-    const totalTasksQuery = `
-    SELECT COUNT(*) FROM task_manager
-    WHERE assignee_id = $1
-  `;
-    const TasksQuery = await pool.query(totalTasksQuery, [assignee_id])
-    const totalTasks = parseInt(TasksQuery.rows[0].count);
+
+    let queryText = `
+      SELECT * FROM task_manager
+      WHERE assignee_id = $1
+    `;
+    let countQueryText = `
+      SELECT COUNT(*) FROM task_manager
+      WHERE assignee_id = $1
+    `;
+    const values = [assignee_id];
+    const countValues = [assignee_id];
+
+    // If search is provided, apply ILIKE filter
+    if (searchItem.trim() !== "") {
+      queryText += ` AND status::TEXT ILIKE $2`;
+      countQueryText += ` AND status::TEXT ILIKE $2`;
+      values.push(`%${searchItem}%`);
+      countValues.push(`%${searchItem}%`);
+    }
+
+    queryText += ` ORDER BY task_id DESC LIMIT $${values.length + 1} OFFSET $${values.length + 2}`;
+    values.push(limit, offset);
+
+    const result = await pool.query(queryText, values);
+    const totalCountResult = await pool.query(countQueryText, countValues);
+    const totalTasks = parseInt(totalCountResult.rows[0].count, 10);
     const totalPages = Math.ceil(totalTasks / limit);
+
     return res.status(200).json({
       tasks: result.rows,
       totalTasks,
       totalPages,
-      currentPage: page
-    })
+      currentPage: Number(page),
+    });
+  } catch (err) {
+    console.error("Error in getPaginatedAndSearchedTasks:", err);
+    return res.status(500).json({ message: "Server error while fetching tasks" });
   }
-  catch (err) {
-    console.error("Error in getAllPaginatedTasks:", err);
-    return res.status(500).json({ message: "Server error while fetching paginated tasks" });
-  }
-}
-module.exports = { taskCreateController, taskUpdateController, getAllTaskController, deleteTaskController, getAllAssignedTaskController, getTaskbyId, getAllPaginatedTasks }
+};
+
+module.exports = { taskCreateController, taskUpdateController, getAllTaskController, deleteTaskController, getAllAssignedTaskController, getTaskbyId, getPaginatedAndSearchedTasks }
 

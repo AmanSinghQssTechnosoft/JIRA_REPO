@@ -13,10 +13,13 @@ const generatePDFController = async (req, res) => {
     const { assignee_id } = req.body;
 
     if (!assignee_id) {
-      return res.status(400).json({ error: "Title, content, and assignee_id are required" });
+      return res.status(400).json({ error: "assignee_id is required" });
     }
 
-    const selectedTask = await pool.query("SELECT * FROM task_manager WHERE assignee_id = $1", [assignee_id]);
+    const selectedTask = await pool.query(
+      "SELECT * FROM task_manager WHERE assignee_id = $1",
+      [assignee_id]
+    );
 
     if (selectedTask.rows.length === 0) {
       return res.status(404).json({ error: "No tasks found for the given assignee_id" });
@@ -48,52 +51,54 @@ const generatePDFController = async (req, res) => {
       }
     });
 
-    // Heading
+    // PDF Content
     doc.fontSize(20).text("Admin Logs", { align: "center" });
     doc.moveDown(2);
 
-    // Table column titles
+    // Table headers
     const tableTop = doc.y;
-    const itemHeight = 25;
+    const itemMinHeight = 25;
 
     const columns = [
       { label: "Task ID", x: 50 },
-      { label: "Assigned ID", x: 120 },
-      { label: "Status", x: 210 },
-      { label: "Created At", x: 280 },
-      { label: "Message", x: 400 }
+      { label: "Assigned ID", x: 110 },
+      { label: "Status", x: 190 },
+      { label: "Created At", x: 270 },
+      { label: "Message", x: 380 }
     ];
 
-    // Draw headers
+    // Draw header
     doc.font("Helvetica-Bold").fontSize(12);
-    columns.forEach(col => doc.text(col.label, col.x, tableTop));
-    doc.moveDown();
+    columns.forEach(col => {
+      doc.text(col.label, col.x, tableTop);
+    });
 
-    // Draw a line under header
     doc.moveTo(50, tableTop + 15).lineTo(560, tableTop + 15).stroke();
 
-    // Table data rows
+    // Data rows
     let y = tableTop + 25;
     doc.font("Helvetica").fontSize(10);
 
     selectedTask.rows.forEach(task => {
-      if (y > 750) { // new page if needed
+      if (y > 750) {
         doc.addPage();
         y = 50;
       }
 
-      doc.text(task.task_id.toString(), 50, y);
-      doc.text(task.assigned_id.toString(), 120, y);
-      doc.text(task.status, 210, y);
-      doc.text(new Date(task.created_at).toLocaleString(), 280, y, { width: 100 });
-      doc.text(task.message_text, 900, y, { width: 150 });
+      const messageTextHeight = doc.heightOfString(task.message_text, { width: 160 });
+      const rowHeight = Math.max(itemMinHeight, messageTextHeight);
 
-      y += itemHeight;
+      doc.text(task.task_id.toString(), 50, y);
+      doc.text(task.assigned_id.toString(), 110, y);
+      doc.text(task.status, 190, y);
+      doc.text(new Date(task.created_at).toLocaleString(), 270, y, { width: 100 });
+      doc.text(task.message_text, 380, y, { width: 160, align: 'left' });
+
+      y += rowHeight;
     });
 
-    // Summary
+    // Summary page
     doc.addPage();
-    doc.moveDown();
     doc.font("Helvetica-Bold").fontSize(14).text("Summary", { underline: true });
     doc.moveDown();
     doc.font("Helvetica").fontSize(12).text(

@@ -4,9 +4,15 @@
   padding: 2rem;
   align-items: flex-start;
   justify-content: flex-start;
+  flex-wrap: wrap;
 
   .left-create-task {
     flex: 0 0 280px;
+
+    @media (max-width: 768px) {
+      flex: 1 1 100%;
+      margin-bottom: 1.5rem;
+    }
   }
 
   .right-task-grid {
@@ -14,14 +20,22 @@
     grid-template-columns: repeat(2, 1fr);
     gap: 2rem;
     flex: 1;
+
+    @media (max-width: 1024px) {
+      grid-template-columns: 1fr;
+    }
+
+    @media (max-width: 768px) {
+      grid-template-columns: 1fr;
+      width: 100%;
+    }
   }
 }
-
 
 .task {
   flex: 1;
   min-width: 250px;
-  max-width: 300px;
+  max-width: 100%;
   background-color: #ffffff;
   padding: 1rem;
   border-radius: 12px;
@@ -30,6 +44,11 @@
   display: flex;
   flex-direction: column;
   overflow-y: auto;
+
+  @media (max-width: 768px) {
+    height: auto;
+    max-height: 70vh;
+  }
 }
 
 .task h3 {
@@ -52,14 +71,22 @@
   font-size: 0.95rem;
   transition: all 0.2s ease;
   cursor: grab;
-.task-icon{
-  display: flex;
-  gap:5px;
-  cursor: pointer;
-}
+
+  .task-icon {
+    display: flex;
+    gap: 5px;
+    cursor: pointer;
+  }
+
   &:hover {
     background-color: #eaf4ff;
     border-color: #3b82f6;
+  }
+
+  @media (max-width: 500px) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
   }
 }
 
@@ -98,4 +125,3 @@
     }
   }
 }
-   
