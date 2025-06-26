@@ -52,8 +52,8 @@ const TaskManager = () => {
   const [taskID, settaskID] = useState<string | undefined>();
   const { token, id } = useSelector((state: any) => state.authLogin);
   const dispatch = useDispatch();
-  const filename=localStorage.getItem("file");
-  const navigate=useNavigate();
+  const filename = localStorage.getItem("file");
+  const navigate = useNavigate();
   const fetchTasks = async () => {
     const data = await getAllTask(id);
     const groupedTasks: TasksState = {
@@ -197,8 +197,8 @@ const TaskManager = () => {
 
     setNewTaskData({ assignee_id: 0, assigned_id: 0, message_text: "" });
   };
-  const navigateToTask=(id:string)=>{
-       navigate(`/jira/${id}`)
+  const navigateToTask = (id: string) => {
+    navigate(`/jira/${id}`)
   }
   const renderColumn = (title: string, colKey: ColumnType) => (
     <Droppable droppableId={colKey} key={colKey}>
@@ -257,22 +257,18 @@ const TaskManager = () => {
                   ref={provided.innerRef}
                   {...provided.draggableProps}
                   {...provided.dragHandleProps}
-                  onClick={()=>navigateToTask(task.id)}
+                  onClick={() => navigateToTask(task.id)}
                 >
-                  {task.title}
+                  {/* {task.title} */}
                   <div className="task-icon">
+                    <span>{task.assigned_id}</span>
+                    <p>{task.status}</p>
                     <Edit2 size={16} onClick={() => settaskID(task.id)} />
                     <Trash2
                       size={16}
                       onClick={() => handleDelete(task.id)}
                       style={{ cursor: "pointer", marginLeft: "8px" }}
                     />
-                    {colKey === "newtask" && (
-                      <>
-                        <span>{task.assigned_id}</span>
-                        <p>{task.status}</p>
-                      </>
-                    )}
                   </div>
                 </div>
               )}
@@ -284,49 +280,49 @@ const TaskManager = () => {
       )}
     </Droppable>
   );
-console.log("filename",filename)
-return (
-  <div>
-    <h2 style={{ textAlign: "center" }}>{filename ? filename : "Task Manager"}</h2>
-    <DragDropContext onDragEnd={onDragEnd}>
-      <div className="main-task-container">
-        <div className="left-create-task">
-          {renderColumn("Create-Task", "newtask")}
-        </div>
-        <div className="right-task-grid">
-          {renderColumn("Todo", "todo")}
-          {renderColumn("Drafting", "drafting")}
-          {renderColumn("In Review", "review")}
-          {renderColumn("Done", "done")}
-        </div>
-      </div>
-    </DragDropContext>
 
-    {taskID && (
-      <EditTaskModal
-        taskId={taskID}
-        token={token}
-        settaskID={() => {
-          settaskID(undefined);
-          fetchTasks(); // Refresh after edit
-        }}
+  return (
+    <div>
+      <h2 style={{ textAlign: "center" }}>Task Manager</h2>
+      <DragDropContext onDragEnd={onDragEnd}>
+        <div className="main-task-container">
+          <div className="left-create-task">
+            {renderColumn("Create-Task", "newtask")}
+          </div>
+          <div className="right-task-grid">
+            {renderColumn("Todo", "todo")}
+            {renderColumn("Drafting", "drafting")}
+            {renderColumn("In Review", "review")}
+            {renderColumn("Done", "done")}
+          </div>
+        </div>
+      </DragDropContext>
+
+      {taskID && (
+        <EditTaskModal
+          taskId={taskID}
+          token={token}
+          settaskID={() => {
+            settaskID(undefined);
+            fetchTasks(); // Refresh after edit
+          }}
+        />
+      )}
+
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
       />
-    )}
-
-    <ToastContainer
-      position="top-right"
-      autoClose={5000}
-      hideProgressBar={false}
-      newestOnTop={false}
-      closeOnClick
-      rtl={false}
-      pauseOnFocusLoss
-      draggable
-      pauseOnHover
-      theme="light"
-    />
-  </div>
-);
+    </div>
+  );
 
 };
 

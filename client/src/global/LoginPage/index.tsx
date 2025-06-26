@@ -47,14 +47,13 @@ const LoginPage = () => {
         }));
     };
 
-  
-
     return (
         <div className="login-container">
             <h1>Login here</h1>
             <GoogleOAuthProvider clientId='277587073370-bmskjo8qadfvmq9vjhhen2036r9t5h3k.apps.googleusercontent.com'>
-                <GoogleLogin 
-                />
+                <div className="google-login-wrapper">
+                    <GoogleLogin />
+                </div>
             </GoogleOAuthProvider>
             <p>or</p>
             <div className="main-email-passowrd">
