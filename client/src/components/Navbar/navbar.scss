@@ -7,11 +7,28 @@
   background-color: #fff;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
 
-  .logo {
-    font-weight: bold;
-    font-size: 1.5rem;
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: bold;
+  font-size: 1.5rem;
+  color: #00b894;
+
+  img {
+    height: 40px;
+    width: 40px;
+    object-fit: contain;
+    border-radius: 8px;
+  }
+
+  span {
+    display: inline-block;
+    font-size: 1.25rem;
+    font-weight: 600;
     color: #00b894;
   }
+}
 
   .menu-toggle {
     display: none;
