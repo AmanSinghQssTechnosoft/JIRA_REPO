@@ -25,8 +25,9 @@ import { Edit2, Trash2 } from "lucide-react";
 import EditTaskModal from "../../global/EditTaskModal";
 import userFetchUserData from "../../hooks/useFetchUserData";
 import { useNavigate } from 'react-router-dom';
+import SetReminderModal from '../../global/SetRemainder';
 
-type Task = { id: string; title: string; assigned_id?: string; status?: string };
+type Task = { id: string; title: string; assigned_id?: string; status?: string,allocted_assigned_id?: number };
 type ColumnType = "todo" | "drafting" | "review" | "done" | "newtask";
 
 type TasksState = {
@@ -51,6 +52,8 @@ const TaskManager = () => {
   });
   const [taskID, settaskID] = useState<string | undefined>();
   const { token, id } = useSelector((state: any) => state.authLogin);
+  const [assigned_Task, setassignedTask] = useState<string | undefined>(undefined);
+  const [assigned_id, setassigned_id] = useState<number | undefined>(undefined);
   const dispatch = useDispatch();
   const filename = localStorage.getItem("file");
   const navigate = useNavigate();
@@ -120,6 +123,7 @@ const TaskManager = () => {
               id: String(task.task_id),
               title: task.message_text ?? "",
               assigned_id: data,
+              allocted_assigned_id: task.assigned_id,
               status: task.status,
             };
           })
@@ -257,7 +261,8 @@ const TaskManager = () => {
                   ref={provided.innerRef}
                   {...provided.draggableProps}
                   {...provided.dragHandleProps}
-                  onClick={() => navigateToTask(task.id)}
+                  onClick={() => (setassignedTask(task.id), setassigned_id(task.allocted_assigned_id))}
+
                 >
                   {/* {task.title} */}
                   <div className="task-icon">
@@ -308,7 +313,8 @@ const TaskManager = () => {
           }}
         />
       )}
-
+      {assigned_Task && (<SetReminderModal id={assigned_id} taskId={assigned_Task} onClose={() => setassignedTask(undefined)} />)
+      }
       <ToastContainer
         position="top-right"
         autoClose={5000}
