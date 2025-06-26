@@ -90,3 +90,9 @@ export const getpdfDownload=async(assignee_id:number)=>{
   const response = await userRequest("/pdf/generate", 'POST',{assignee_id:assignee_id});
   return response;
 }
+
+export const createRemainder = async ( task_id:string, assigned_id:number, reminder_date:string, message:string) => {
+  console.log("task_id", task_id, "assigned_id", assigned_id, "reminder_date", reminder_date, "message", message);
+  const response = await userRequest(`/remainder/createreminder`, 'POST', { task_id, assigned_id, reminder_date, message });
+  return response;
+}

@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import './navbar.scss'
 import { Link } from 'react-router-dom';
+import { Bell } from 'lucide-react';
 
 const Navbar = () => {
   const [toggle, showToggle] = useState(false);
@@ -17,6 +18,7 @@ const Navbar = () => {
         <Link to="/about" onClick={() => showToggle(!toggle)}>About</Link>
         <Link to="/Jira" onClick={() => showToggle(!toggle)}>Jira</Link>
         <Link to="/assignedTask" onClick={() => showToggle(!toggle)}>AssignedTask</Link>
+        <Link to="/notification" onClick={() => showToggle(!toggle)}> <Bell size={24} color="#333" /></Link>
       </ul>
     </nav>
   )

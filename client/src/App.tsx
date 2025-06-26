@@ -11,6 +11,7 @@ import TaskDetail from "./global/TaskDetail";
 import VerifyEmail from "./global/Forget";
 import ResetPassword from "./global/Forget/ResetPassword";
 import AssigendPdfDetail from "./components/Assigned_Task";
+import NotificationBell from "./global/Notification";
 
 const Layout = () => (
   <>
@@ -22,6 +23,7 @@ const Layout = () => (
       <Route path="/jira" element={<TaskManager />} />
       <Route path="/jira/:taskid" element={<TaskDetail/>}/>
       <Route path="/assignedTask" element={<AssigendPdfDetail/>}/>
+       <Route path="/notification" element={<NotificationBell />} />
     </Routes>
     </ProtectedRoutes>
   </>

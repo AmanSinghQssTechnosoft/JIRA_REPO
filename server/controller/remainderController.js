@@ -2,11 +2,11 @@ const pool = require("../db/db");
 
 const createReminder = async (req, res) => {
   try {
-    const { task_id, assignee_id, reminder_date, message } = req.body;
+    const { task_id, assigned_id, reminder_date, message } = req.body;
     const result = await pool.query(
-      `INSERT INTO task_reminders (task_id, assignee_id, reminder_date, message)
+      `INSERT INTO task_reminders (task_id, assigned_id, reminder_date, message)
        VALUES ($1, $2, $3, $4) RETURNING *`,
-      [task_id, assignee_id, reminder_date, message]
+      [task_id, assigned_id, reminder_date, message]
     );
     return res.status(201).json({ reminder: result.rows[0] });
   } catch (err) {
@@ -18,6 +18,7 @@ const createReminder = async (req, res) => {
 const checkReminders = async () => {
   try {
     const now = new Date().toISOString();
+    console.log(`⏰ Checking for reminders at ${now}`);
     const dueReminders = await pool.query(
       `SELECT * FROM task_reminders WHERE reminder_date <= $1 AND is_sent = FALSE`,
       [now]
