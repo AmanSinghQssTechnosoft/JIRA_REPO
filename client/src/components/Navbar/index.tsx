@@ -6,7 +6,9 @@ const Navbar = () => {
   const [toggle, showToggle] = useState(false);
   return (
     <nav className="navbar">
-      <div className="logo">MyApp</div>
+      <div className="logo">
+        <img src="./public/hot-air-balloon-svgrepo-com.svg" alt="Logo" />
+      </div>
       <div className="menu-toggle" onClick={() => showToggle(!toggle)}>
         ☰
       </div>
