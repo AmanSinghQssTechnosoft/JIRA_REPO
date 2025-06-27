@@ -21,7 +21,7 @@ import {
 } from "../../utils/apiservice";
 import { useDispatch, useSelector } from "react-redux";
 import { userData, userType } from "../../redux/slice/userStoreSlice";
-import { Edit2, Trash2 } from "lucide-react";
+import { Bell, Edit2, Trash2 } from "lucide-react";
 import EditTaskModal from "../../global/EditTaskModal";
 import userFetchUserData from "../../hooks/useFetchUserData";
 import { useNavigate } from 'react-router-dom';
@@ -261,8 +261,7 @@ const TaskManager = () => {
                   ref={provided.innerRef}
                   {...provided.draggableProps}
                   {...provided.dragHandleProps}
-                  onClick={() => (setassignedTask(task.id), setassigned_id(task.allocted_assigned_id))}
-
+                  
                 >
                   {/* {task.title} */}
                   <div className="task-icon">
@@ -274,6 +273,7 @@ const TaskManager = () => {
                       onClick={() => handleDelete(task.id)}
                       style={{ cursor: "pointer", marginLeft: "8px" }}
                     />
+                   <Bell size={16} onClick={() => (setassigned_id(task.allocted_assigned_id), setassignedTask(task.id))} />
                   </div>
                 </div>
               )}

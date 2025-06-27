@@ -17,26 +17,41 @@ const createReminder = async (req, res) => {
 
 const checkReminders = async () => {
   try {
-    const now = new Date().toISOString();
-    console.log(`⏰ Checking for reminders at ${now}`);
+    const now = new Date().toISOString().split("T")[0]; 
+    console.log(`⏰ Checking for reminders on date ${now}`);
+
     const dueReminders = await pool.query(
-      `SELECT * FROM task_reminders WHERE reminder_date <= $1 AND is_sent = FALSE`,
+      `SELECT * FROM task_reminders WHERE reminder_date::DATE <= $1::DATE AND is_sent = FALSE`,
       [now]
     );
+     console.log(dueReminders.rows);
+    if (dueReminders.rows.length === 0) {
+      console.log("✅ No due reminders today.");
+      return;
+    }
+
+
+    console.log(`${dueReminders.rows.length} due reminders found`);
 
     for (let reminder of dueReminders.rows) {
+      const { assigned_id, message, id } = reminder;
+         if(!assigned_id || !message) {
+          return;
+         }
       await pool.query(
         `INSERT INTO notifications (user_id, message) VALUES ($1, $2)`,
-        [reminder.assignee_id, reminder.message]
+        [assigned_id, message]
       );
+
       await pool.query(
         `UPDATE task_reminders SET is_sent = TRUE WHERE id = $1`,
-        [reminder.id]
+        [id]
       );
-      console.log(`🔔 Reminder sent to user ${reminder.assignee_id}: "${reminder.message}"`);
+
+      console.log(`🔔 Reminder sent to user ${assigned_id}: "${message}"`);
     }
   } catch (err) {
-    console.error("Reminder processing error:", err);
+    return res.status(500).json({ message: "Error processing reminders" });
   }
 };
 

@@ -2,7 +2,9 @@ const pool = require("../db/db");
 
 const getNotifications = async (req, res) => {
   try {
-    const user_id = req.user.id;
+    const { user_id } = req.body;
+    console.log("Fetching notifications for user:", user_id);
+  
     const result = await pool.query(
       `SELECT * FROM notifications WHERE user_id = $1 AND is_read = FALSE ORDER BY created_at DESC`,
       [user_id]
@@ -17,8 +19,8 @@ const getNotifications = async (req, res) => {
 
 const markAsRead = async (req, res) => {
   try {
-    const { id } = req.params;
-    await pool.query(`UPDATE notifications SET is_read = TRUE WHERE id = $1`, [id]);
+    const { notification_id } = req.params;
+    await pool.query(`UPDATE notifications SET is_read = TRUE WHERE id = $1`, [notification_id]);
     res.status(200).json({ message: "Marked as read" });
   } catch (err) {
     console.error("Marking read error:", err);

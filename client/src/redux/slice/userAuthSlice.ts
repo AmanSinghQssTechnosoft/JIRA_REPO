@@ -10,6 +10,7 @@ interface UserLogin {
 interface UserRegister extends UserLogin {
   role?: string;
   token?: string;
+  name?: string;
 }
 
 const initialState: UserRegister = {
@@ -28,6 +29,7 @@ const userLoginSlice = createSlice({
       console.log("login-payload", action.payload)
       state.id=action.payload.id,
       state.email = action.payload.email;
+      state.name=action.payload.name;
       state.token = action.payload.token;
       state.isLoggin = true;
     },
