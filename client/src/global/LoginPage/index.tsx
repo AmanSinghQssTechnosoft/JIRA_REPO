@@ -35,6 +35,7 @@ const LoginPage = () => {
             id: response.user.id,
             email: response.user.email,
             role: response.user.role,
+            name:response.user.name,
             token: response.jwttoken
         }))
         navigate("/home")
